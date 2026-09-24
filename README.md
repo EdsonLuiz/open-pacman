@@ -1,8 +1,9 @@
-## PacMan like
+## Pac-Man Clone
 
-Vamos a crear un juego de PacMan como el juego de PacMan original, pero con una interfaz gráfica más moderna y sencilla.
+We are creating a Pac-Man game like the original, but with a more modern and
+simpler graphical interface.
 
-## Tecnologías
+## Technologies
 
 - Vanilla JS
 - HTML
@@ -10,4 +11,4 @@ Vamos a crear un juego de PacMan como el juego de PacMan original, pero con una 
 
 # Spec Driven Development
 
-El proyecto sirve para aprender este enfoque de desarrollo.
+This project is used to learn this approach to development.
