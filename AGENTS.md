@@ -44,6 +44,9 @@ This repo uses the `/spec` and `/spec-impl` skills (see `.agents/skills/spec/`).
 - After approval, run `/spec-impl NN-slug` to implement (it auto-creates a git branch
   if `specs/.spec-config.yml` sets `AutoCreateBranch: true`).
 - If `specs/.spec-config.yml` does not exist, create it with `AutoCreateBranch: true`.
+- Specs use front matter to track their `Status`. A rule must be enforced: no model
+  (including this one) is permitted to modify the `Status` field in the front matter
+  of any file inside the `spec/` folder. Only a human author may change spec statuses.
 
 ## Conventions
 
