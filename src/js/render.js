@@ -98,17 +98,19 @@ function drawPacman( ctx, p, frame ) {
   ctx.fill();
 }
 
-function drawGhost( ctx, g, color ) {
+function drawGhost( ctx, g, color, frame, i ) {
   const { cx, cy } = cellCenter( g.x, g.y );
+  // Fantasma encerrado en la pen: bobbing in-place.
+  const bob = g.released ? 0 : Math.sin( frame * 0.1 + i * 0.6 ) * 2;
   const r = TILE / 2 - 1;
-  const top = cy - r;
-  const bottom = cy + r;
+  const top = cy + bob - r;
+  const bottom = cy + bob + r;
   const left = cx - r;
   const right = cx + r;
 
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc( cx, cy - 1, r, Math.PI, 0, false ); // cabeza
+  ctx.arc( cx, cy + bob - 1, r, Math.PI, 0, false ); // cabeza
   ctx.lineTo( right, bottom );
   // falda ondulada (3 picos)
   ctx.lineTo( right - r * 0.66, bottom - 4 );
@@ -125,11 +127,11 @@ function drawGhost( ctx, g, color ) {
   for ( const off of [ -3.5, 3.5 ] ) {
     ctx.fillStyle = '#fff';
     ctx.beginPath();
-    ctx.arc( cx + off, cy - 1, 3, 0, Math.PI * 2 );
+    ctx.arc( cx + off, cy + bob - 1, 3, 0, Math.PI * 2 );
     ctx.fill();
     ctx.fillStyle = '#0000bb';
     ctx.beginPath();
-    ctx.arc( cx + off + ex, cy - 1 + ey, 1.5, 0, Math.PI * 2 );
+    ctx.arc( cx + off + ex, cy + bob - 1 + ey, 1.5, 0, Math.PI * 2 );
     ctx.fill();
   }
 }
@@ -144,7 +146,7 @@ function drawHUD( ctx, game, W ) {
   ctx.fillText( 'VIDAS ' + game.lives, W * TILE - 8, 4 );
 }
 
-const GHOST_COLORS = [ '#ff0000', '#00ffff', '#ffb8ff', '#ffb852' ];
+const GHOST_COLORS = [ '#ff0000', '#ffb8ff', '#00ffff', '#ffb852' ];
 
 function draw( ctx, game, frame ) {
   const grid = game.grid;
@@ -158,7 +160,9 @@ function draw( ctx, game, frame ) {
   drawDoor( ctx, grid );
   drawDots( ctx, grid );
   drawPacman( ctx, game.pacman, frame );
-  game.ghosts.forEach( ( g, i ) => drawGhost( ctx, g, GHOST_COLORS[ i ] || '#ff0000' ) );
+  game.ghosts.forEach( ( g, i ) =>
+    drawGhost( ctx, g, GHOST_COLORS[ i ] || '#ff0000', frame, i )
+  );
   drawHUD( ctx, game, W );
 }
 
