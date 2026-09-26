@@ -12,6 +12,7 @@ const OPPOSITE = { left: 'right', right: 'left', up: 'down', down: 'up' };
 
 const PACMAN_SPEED = 0.125; // 1/8 celda/frame -> alinea cada 8 frames
 const GHOST_SPEED = 0.1;    // 1/10 celda/frame
+const RELEASE_FRACTIONS = [ 0.025, 0.05, 0.075, 0.10 ];
 
 // Crea una partida nueva. Copia MAZE (pristino) a game.grid para poder comer
 // dots sin destruir el original, y reiniciar.
@@ -145,9 +146,18 @@ function decideGhost( game, g ) {
   }
 }
 
-function moveGhost( game, g ) {
+function moveGhost( game, g, i ) {
   const grid = game.grid;
   const width = grid[ 0 ].length;
+
+  // Fantasma encerrado: sale cuando se alcanza su fraccion de dots.
+  if ( !g.released ) {
+    if ( game.dotsEaten >= RELEASE_FRACTIONS[ i ] * game.totalDots ) {
+      g.released = true;
+    } else {
+      return; // sigue en la pen, sin moverse
+    }
+  }
 
   if ( aligned( g.x ) && aligned( g.y ) ) {
     g.x = Math.round( g.x );
@@ -181,7 +191,7 @@ function collides( a, b ) {
 
 function update( game ) {
   movePacman( game );
-  game.ghosts.forEach( ( g ) => moveGhost( game, g ) );
+  game.ghosts.forEach( ( g, i ) => moveGhost( game, g, i ) );
 
   for ( const g of game.ghosts ) {
     if ( collides( game.pacman, g ) ) {
