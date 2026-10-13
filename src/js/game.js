@@ -184,10 +184,20 @@ function moveGhost( game, g, i ) {
     }
   }
 
+  // Fuerza salida de la pen: si esta dentro (rows 14-15, cols 13-14),
+  // dirigir hacia arriba (row 13 o menos) hasta escapar.
+  const inPen = Math.round( g.y ) >= 14 && Math.round( g.y ) <= 15 &&
+                Math.round( g.x ) >= 13 && Math.round( g.x ) <= 14;
+  const escapeDir = inPen ? 'up' : null;
+
   if ( aligned( g.x ) && aligned( g.y ) ) {
     g.x = Math.round( g.x );
     g.y = Math.round( g.y );
-    decideGhost( game, g );
+    if ( escapeDir ) {
+      g.dir = escapeDir;
+    } else {
+      decideGhost( game, g );
+    }
     if ( !canMove( grid, g.x, g.y, g.dir, 'ghost' ) ) return;
   }
 
