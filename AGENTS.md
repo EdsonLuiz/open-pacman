@@ -38,8 +38,8 @@ This repo uses the `/spec` and `/spec-impl` skills (see `.agents/skills/spec/`).
 - Specs live in `specs/` (create the folder on first use), numbered sequentially and
   zero-padded to two digits, e.g. `01-introduce-spec.md`, `02-powerups.md`.
 - Each spec header: `Status`, `Depends on`, `Date`, `Objective` (one sentence).
-- Spec status values (Spanish): `Borrador` · `En revisión` · `Aprobado` ·
-  `Implementado` · `Obsoleto`. Pick one set per repo and stay consistent.
+- Spec status values (English): `Draft` · `Under review` · `Approved` ·
+  `Implemented` · `Obsolet`. Pick one set per repo and stay consistent.
 - Before writing code, save the spec, then have the user mark it `Approved`.
 - After approval, run `/spec-impl NN-slug` to implement (it auto-creates a git branch
   if `specs/.spec-config.yml` sets `AutoCreateBranch: true`).
